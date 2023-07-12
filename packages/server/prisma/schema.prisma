@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RemunerationType {
+  MONEY
+  BANK_TRANSFER
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+
+  Employer Employer?
+
+  @@map("users")
+}
+
+model Employer {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  birthdate  DateTime
+  created_at DateTime @default(now())
+
+  user         User?          @relation(fields: [user_id], references: [id])
+  user_id      String?        @unique
+  remuneration Remuneration[]
+  adress       Address[]
+
+  @@map("employers")
+}
+
+model Address {
+  id             String   @id @default(uuid())
+  postal_code    String
+  street_address String
+  number         String
+  complement     String?
+  city           String
+  country        String
+  created_at     DateTime @default(now())
+
+  employer_id String
+  employer    Employer @relation(fields: [employer_id], references: [id])
+
+  @@map("addresses")
+}
+
+model Remuneration {
+  id                 String           @id @default(uuid())
+  remuneration_value Decimal
+  payday             DateTime
+  remuneration_type  RemunerationType @default(BANK_TRANSFER)
+  created_at         DateTime         @default(now())
+
+  employer_id String   @unique
+  employer    Employer @relation(fields: [employer_id], references: [id])
+
+  @@map("remunerations")
+}
