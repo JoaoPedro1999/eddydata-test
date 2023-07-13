@@ -15,6 +15,11 @@ enum RemunerationType {
   BANK_TRANSFER
 }
 
+enum GenderType {
+  MALE
+  FEMALE
+}
+
 model User {
   id            String   @id @default(uuid())
   email         String   @unique
@@ -27,11 +32,12 @@ model User {
 }
 
 model Employer {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
-  email      String   @unique
+  email      String     @unique
   birthdate  DateTime
-  created_at DateTime @default(now())
+  gender     GenderType
+  created_at DateTime   @default(now())
 
   user         User?          @relation(fields: [user_id], references: [id])
   user_id      String?        @unique
@@ -43,6 +49,7 @@ model Employer {
 
 model Address {
   id             String   @id @default(uuid())
+  employer_id    String
   postal_code    String
   street_address String
   number         String
@@ -51,8 +58,7 @@ model Address {
   country        String
   created_at     DateTime @default(now())
 
-  employer_id String
-  employer    Employer @relation(fields: [employer_id], references: [id])
+  employer Employer @relation(fields: [employer_id], references: [id])
 
   @@map("addresses")
 }
@@ -64,7 +70,7 @@ model Remuneration {
   remuneration_type  RemunerationType @default(BANK_TRANSFER)
   created_at         DateTime         @default(now())
 
-  employer_id String   @unique
+  employer_id String
   employer    Employer @relation(fields: [employer_id], references: [id])
 
   @@map("remunerations")

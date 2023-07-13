@@ -1,4 +1,4 @@
-import { Employer, Prisma } from '@prisma/client'
+import { Employer, GenderType, Prisma } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { EmployerRepository } from '@/repositories/employers-repository'
 
@@ -45,6 +45,7 @@ export class InMemoryUsersRepository implements EmployerRepository {
       email: data.email,
       name: data.name,
       birthdate: new Date(data.birthdate),
+      gender: data.gender,
       created_at: new Date(),
       user_id: null,
     }
@@ -62,6 +63,7 @@ export class InMemoryUsersRepository implements EmployerRepository {
       name: String(data.name),
       email: String(data.email),
       user_id: String(data.user?.connect?.id),
+      gender: String(data.gender) as GenderType,
       birthdate: new Date(String(data.birthdate)),
       created_at: new Date(String(data.created_at)),
     }
