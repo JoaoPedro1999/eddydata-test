@@ -4,7 +4,6 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from '@/env'
 import { usersRoutes } from '@/http/controllers/users/routes'
-import { log } from 'console'
 
 export const app = fastify()
 
@@ -30,8 +29,6 @@ app.get('/', async () => {
 })
 
 app.setErrorHandler((error, _, reply) => {
-  log('Eu')
-
   if (error instanceof ZodError) {
     return reply
       .status(400)

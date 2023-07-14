@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Address, Prisma } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { AddressesRepository } from '@/repositories/adresses-repository'
@@ -5,7 +7,7 @@ import { AddressesRepository } from '@/repositories/adresses-repository'
 export class InMemoryAdressessRepository implements AddressesRepository {
   public items: Address[] = []
 
-  async create(data: Prisma.AddressCreateInput) {
+  async create(data: Prisma.AddressCreateInput, employerId?: string) {
     const address = {
       id: randomUUID(),
       postal_code: data.postal_code,
@@ -14,7 +16,7 @@ export class InMemoryAdressessRepository implements AddressesRepository {
       complement: null,
       city: data.city,
       country: data.country,
-      employer_id: randomUUID(),
+      employer_id: String(employerId) ?? '',
       created_at: new Date(),
     }
 

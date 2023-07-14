@@ -7,14 +7,14 @@ export class InMemoryRemunerationsRepository
 {
   public items: Remuneration[] = []
 
-  async create(data: Prisma.RemunerationCreateInput) {
+  async create(data: Prisma.RemunerationCreateInput, employerId?: string) {
     const remuneration = {
       id: randomUUID(),
       remuneration_value: data.remuneration_value as Prisma.Decimal,
       payday: new Date(data.payday),
       remuneration_type: data.remuneration_type as RemunerationType,
       created_at: new Date(),
-      employer_id: String(data.employer.connect?.id),
+      employer_id: String(employerId) ?? '',
     }
 
     this.items.push(remuneration)

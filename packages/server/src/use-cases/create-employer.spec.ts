@@ -24,10 +24,10 @@ describe('Create Employer Use Case', () => {
       gender: 'MALE',
     })
 
-    return employer
+    expect(employer.id).toEqual(expect.any(String))
   })
 
-  it('should to register employer address', async () => {
+  it('should to register employer with address', async () => {
     const { employer } = await sut.execute({
       name: 'johndoe',
       birthdate: new Date(),
@@ -40,7 +40,11 @@ describe('Create Employer Use Case', () => {
       street_address: 'Rua',
     })
 
-    expect(employer.id).toEqual(expect.any(String))
+    const address = await adressesRepository.getAdressesByEmployerId(
+      employer.id,
+    )
+
+    expect(address[0].employer_id).toEqual(employer.id)
   })
 
   it('should not be able to create employer with exists email', async () => {

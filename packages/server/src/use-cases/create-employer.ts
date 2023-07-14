@@ -53,15 +53,19 @@ export class CreateEmployerUseCase {
     })
 
     if (city && country && number && postal_code && street_address) {
-      await this.addressRepository.create({
-        city,
-        country,
-        employer: employer as Prisma.EmployerCreateNestedOneWithoutAdressInput,
-        number,
-        postal_code,
-        street_address,
-        complement,
-      })
+      await this.addressRepository.create(
+        {
+          city,
+          country,
+          employer:
+            employer as Prisma.EmployerCreateNestedOneWithoutAdressInput,
+          number,
+          postal_code,
+          street_address,
+          complement,
+        },
+        employer.id,
+      )
     }
 
     return { employer }
