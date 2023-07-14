@@ -1,7 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 
-import { RemunerationsRepository } from '../remunerations-repository'
+import {
+  RemunerationsRepository,
+  getRemunerationSumByCityReturn,
+  getRemunerationSumByGenderReturn,
+} from '../remunerations-repository'
 
 export class PrismaRemunerationsRepository implements RemunerationsRepository {
   async create(data: Prisma.RemunerationCreateInput) {
@@ -23,31 +27,50 @@ export class PrismaRemunerationsRepository implements RemunerationsRepository {
     return remuneration
   }
 
-  async getRemunerationSumByCity(city: string): Promise<number> {
-    const remunerationSumByCity = await prisma.remuneration.groupBy({})
+  async getLastRemunerationByEmployerId(employerId: string) {
+    const remuneration = await prisma.remuneration.findFirst({
+      where: {
+        employer_id: employerId,
+      },
+    })
+
+    return remuneration
+  }
+
+  async getRemunerationsByEmployerId(employerId: string) {
+    const remunerations = await prisma.remuneration.findMany({
+      where: {
+        employer_id: employerId,
+      },
+    })
+
+    return remunerations
+  }
+
+  async getRemunerationSumByCity() {
+    const remunerationSumByCity = await prisma.$queryRawUnsafe<
+      getRemunerationSumByCityReturn[]
+    >(
+      'SELECT addresses.city, sum(remunerations.remuneration_value) FROM remunerations, employers, addresses WHERE remunerations.employer_id = employers.id AND addresses.employer_id = employers.id GROUP BY addresses.city',
+    )
 
     return remunerationSumByCity
   }
 
-  async getRemunerationSumByGender(): Promise<number> {
-    const remunerationSumByCity = await prisma.remuneration.groupBy({
-      where: {
-        employer: {
-          gender: {
-            equals: 'FEMALE',
-          },
-        },
-      },
-      by: ['remuneration_value'],
-    })
+  async getRemunerationSumByGender() {
+    const remunerationSumByGender = await prisma.$queryRawUnsafe<
+      getRemunerationSumByGenderReturn[]
+    >(
+      'SELECT employers.gender, sum(remunerations.remuneration_value) FROM remunerations, employers WHERE remunerations.employer_id = employers.id GROUP BY employers.gender',
+    )
 
-    return remunerationSumByCity
+    return remunerationSumByGender
   }
 
   async getRemunerationSumByRemunerationType() {
     const remunerationSumByRemunerationType = await prisma.remuneration.groupBy(
       {
-        by: 'remuneration_type',
+        by: ['remuneration_type'],
         _sum: {
           remuneration_value: true,
         },

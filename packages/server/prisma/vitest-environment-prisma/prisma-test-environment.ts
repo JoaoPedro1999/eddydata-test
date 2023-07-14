@@ -8,11 +8,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 function generateDatabaseURL(schema: string) {
-  if (!process.env.DATABASE_URL) {
+  if (!process.env.DIRECT_URL) {
     throw new Error('Please provide a DATABASE_URL environment variable.')
   }
 
-  const url = new URL(process.env.DATABASE_URL)
+  const url = new URL(process.env.DIRECT_URL)
 
   url.searchParams.set('schema', schema)
 

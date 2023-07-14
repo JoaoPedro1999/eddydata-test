@@ -2,7 +2,7 @@ import { Employer, GenderType, Prisma } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { EmployerRepository } from '@/repositories/employers-repository'
 
-export class InMemoryUsersRepository implements EmployerRepository {
+export class InMemoryEmployersRepository implements EmployerRepository {
   public items: Employer[] = []
 
   async findByBirthDateRange(initialBirthDate: string, finalBirthDate: string) {
@@ -12,15 +12,17 @@ export class InMemoryUsersRepository implements EmployerRepository {
         item.birthdate < new Date(finalBirthDate),
     )
 
-    if (!employers) {
-      return null
-    }
-
     return employers
   }
 
   async findByName(name: string) {
-    const employer = this.items.filter((item) => item.name === name)
+    const employers = this.items.filter((item) => item.name.includes(name))
+
+    return employers
+  }
+
+  async findById(employerId: string) {
+    const employer = this.items.find((item) => item.id === employerId)
 
     if (!employer) {
       return null
@@ -29,8 +31,18 @@ export class InMemoryUsersRepository implements EmployerRepository {
     return employer
   }
 
-  async findById(employerId: string) {
-    const employer = this.items.find((item) => item.id === employerId)
+  async findByEmail(email: string) {
+    const employer = this.items.find((item) => item.email === email)
+
+    if (!employer) {
+      return null
+    }
+
+    return employer
+  }
+
+  async findByUserId(userId: string) {
+    const employer = this.items.find((item) => item.user_id === userId)
 
     if (!employer) {
       return null
@@ -71,5 +83,11 @@ export class InMemoryUsersRepository implements EmployerRepository {
     this.items[findIndex] = employer
 
     return employer
+  }
+
+  async delete(employerId: string) {
+    const findEmployer = this.items.findIndex((item) => item.id === employerId)
+
+    this.items.splice(findEmployer, 1)
   }
 }

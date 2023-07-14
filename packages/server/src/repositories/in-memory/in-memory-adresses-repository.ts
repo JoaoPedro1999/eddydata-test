@@ -2,7 +2,7 @@ import { Address, Prisma } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { AddressesRepository } from '@/repositories/adresses-repository'
 
-export class InMemoryUsersRepository implements AddressesRepository {
+export class InMemoryAdressessRepository implements AddressesRepository {
   public items: Address[] = []
 
   async create(data: Prisma.AddressCreateInput) {

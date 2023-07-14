@@ -1,5 +1,14 @@
 import { Prisma, Remuneration } from '@prisma/client'
 
+export interface getRemunerationSumByCityReturn {
+  city: string
+  sum: string
+}
+
+export interface getRemunerationSumByGenderReturn {
+  gender: string
+  sum: string
+}
 export interface RemunerationsRepository {
   getRemunerationsByEmployerId(
     employerId: string,
@@ -7,9 +16,9 @@ export interface RemunerationsRepository {
   getLastRemunerationByEmployerId(
     employerId: string,
   ): Promise<Remuneration | null>
-  getRemunerationSumByCity(city: string): Promise<number>
-  getRemunerationSumByGender(): Promise<number>
-  getRemunerationSumByRemunerationType(): Promise<[]>
+  getRemunerationSumByCity(): Promise<getRemunerationSumByCityReturn[]>
+  getRemunerationSumByGender(): Promise<getRemunerationSumByGenderReturn[]>
+  getRemunerationSumByRemunerationType(): Promise<unknown[]>
   create(data: Prisma.RemunerationCreateInput): Promise<Remuneration>
   update(data: Prisma.RemunerationUpdateInput): Promise<Remuneration>
 }

@@ -6,7 +6,6 @@ import request from 'supertest'
 export async function createAndAuthenticateUser(app: FastifyInstance) {
   await prisma.user.create({
     data: {
-      name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
     },

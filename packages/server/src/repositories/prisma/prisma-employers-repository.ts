@@ -1,11 +1,10 @@
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
-
 import { EmployerRepository } from '../employers-repository'
 
 export class PrismaEmployersRepository implements EmployerRepository {
   async findByBirthDateRange(initialBirthDate: string, finalBirthDate: string) {
-    const user = await prisma.employer.findMany({
+    const employers = await prisma.employer.findMany({
       where: {
         birthdate: {
           lte: initialBirthDate,
@@ -14,13 +13,15 @@ export class PrismaEmployersRepository implements EmployerRepository {
       },
     })
 
-    return user
+    return employers
   }
 
   async findByName(name: string) {
     const employer = await prisma.employer.findMany({
       where: {
-        name,
+        name: {
+          contains: name,
+        },
       },
     })
 
@@ -37,6 +38,26 @@ export class PrismaEmployersRepository implements EmployerRepository {
     return employer
   }
 
+  async findByEmail(email: string) {
+    const employer = await prisma.employer.findFirst({
+      where: {
+        email,
+      },
+    })
+
+    return employer
+  }
+
+  async findByUserId(userId: string) {
+    const employer = await prisma.employer.findFirst({
+      where: {
+        user_id: userId,
+      },
+    })
+
+    return employer
+  }
+
   async create(data: Prisma.EmployerCreateInput) {
     const employer = await prisma.employer.create({
       data,
@@ -46,6 +67,17 @@ export class PrismaEmployersRepository implements EmployerRepository {
   }
 
   async update(data: Prisma.EmployerUpdateInput) {
+    await prisma.employer.delete({
+      where: {
+        id: String(data.id),
+      },
+      include: {
+        adress: true,
+        remuneration: true,
+        user: true,
+      },
+    })
+
     const employer = await prisma.employer.update({
       where: {
         id: String(data.id),
@@ -54,5 +86,18 @@ export class PrismaEmployersRepository implements EmployerRepository {
     })
 
     return employer
+  }
+
+  async delete(employerId: string) {
+    await prisma.employer.delete({
+      where: {
+        id: employerId,
+      },
+      include: {
+        adress: true,
+        remuneration: true,
+        user: true,
+      },
+    })
   }
 }

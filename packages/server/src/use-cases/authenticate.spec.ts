@@ -15,7 +15,6 @@ describe('Authenticate Use Case', () => {
 
   it('should be able to authenticate', async () => {
     await usersRepository.create({
-      name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
     })
@@ -39,7 +38,6 @@ describe('Authenticate Use Case', () => {
 
   it('should not be able to authenticate with wrong email', async () => {
     await usersRepository.create({
-      name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
     })
