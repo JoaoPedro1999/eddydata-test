@@ -8,7 +8,7 @@ import {
 } from '../remunerations-repository'
 
 export class PrismaRemunerationsRepository implements RemunerationsRepository {
-  async create(data: Prisma.RemunerationCreateInput) {
+  async create(data: Prisma.RemunerationUncheckedCreateInput) {
     const remuneration = await prisma.remuneration.create({
       data,
     })
@@ -16,7 +16,7 @@ export class PrismaRemunerationsRepository implements RemunerationsRepository {
     return remuneration
   }
 
-  async update(data: Prisma.RemunerationUpdateInput) {
+  async update(data: Prisma.RemunerationUncheckedUpdateInput) {
     const remuneration = await prisma.remuneration.update({
       where: {
         id: String(data.id),

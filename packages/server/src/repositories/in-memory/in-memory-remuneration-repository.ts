@@ -7,14 +7,14 @@ export class InMemoryRemunerationsRepository
 {
   public items: Remuneration[] = []
 
-  async create(data: Prisma.RemunerationCreateInput, employerId?: string) {
+  async create(data: Prisma.RemunerationUncheckedCreateInput) {
     const remuneration = {
       id: randomUUID(),
       remuneration_value: data.remuneration_value as Prisma.Decimal,
       payday: new Date(data.payday),
       remuneration_type: data.remuneration_type as RemunerationType,
       created_at: new Date(),
-      employer_id: String(employerId) ?? '',
+      employer_id: data.employer_id,
     }
 
     this.items.push(remuneration)
@@ -22,7 +22,7 @@ export class InMemoryRemunerationsRepository
     return remuneration
   }
 
-  async update(data: Prisma.RemunerationUpdateInput) {
+  async update(data: Prisma.RemunerationUncheckedUpdateInput) {
     const findIndex = this.items.findIndex((item) => item.id === data.id)
 
     const remuneration = {
@@ -31,7 +31,7 @@ export class InMemoryRemunerationsRepository
       payday: new Date(String(data.payday)),
       remuneration_type: data.remuneration_type as RemunerationType,
       created_at: new Date(),
-      employer_id: String(data.employer?.connect?.id),
+      employer_id: String(data.employer_id),
     }
 
     this.items[findIndex] = remuneration

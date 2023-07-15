@@ -12,7 +12,7 @@ describe('Get Employers By Name Use Case', () => {
     sut = new UpdateEmployerUseCase(employerRepository)
   })
 
-  it('should be able to find employers by name range', async () => {
+  it('should be able update employer', async () => {
     const employerOne = await employerRepository.create({
       name: 'doe',
       birthdate: new Date(2022, 7, 14),

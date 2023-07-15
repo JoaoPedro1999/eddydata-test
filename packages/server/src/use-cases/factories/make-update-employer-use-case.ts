@@ -1,15 +1,10 @@
-import { PrismaAdressesRepository } from '@/repositories/prisma/prisma-adresses-repository'
 import { PrismaEmployersRepository } from '@/repositories/prisma/prisma-employers-repository'
-import { CreateEmployerUseCase } from '../create-employer'
+import { UpdateEmployerUseCase } from '../update-employer'
 
-export function makeCreateEmployerUseCase() {
-  const adressesRepository = new PrismaAdressesRepository()
+export function makeUpdateEmployerUseCase() {
   const employersRepository = new PrismaEmployersRepository()
 
-  const createEmployerUseCase = new CreateEmployerUseCase(
-    employersRepository,
-    adressesRepository,
-  )
+  const updateEmployerUseCase = new UpdateEmployerUseCase(employersRepository)
 
-  return createEmployerUseCase
+  return updateEmployerUseCase
 }

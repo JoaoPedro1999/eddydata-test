@@ -6,9 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 enum RemunerationType {
@@ -40,8 +40,8 @@ model Employer {
   gender     GenderType
   created_at DateTime   @default(now())
 
-  user         User?          @relation(fields: [user_id], references: [id])
   user_id      String?        @unique
+  user         User?          @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   remuneration Remuneration[]
   adress       Address[]
 
@@ -59,7 +59,7 @@ model Address {
   country        String
   created_at     DateTime @default(now())
 
-  employer Employer @relation(fields: [employer_id], references: [id])
+  employer Employer @relation(fields: [employer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("addresses")
 }
@@ -72,7 +72,7 @@ model Remuneration {
   created_at         DateTime         @default(now())
 
   employer_id String
-  employer    Employer @relation(fields: [employer_id], references: [id])
+  employer    Employer @relation(fields: [employer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("remunerations")
 }

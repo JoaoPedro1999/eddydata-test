@@ -1,14 +1,14 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { InMemoryEmployersRepository } from '@/repositories/in-memory/in-memory-employers-repository'
-import { GetEmployersByNameRangeUseCase } from './get-employers-by-name'
+import { GetEmployersByNameUseCase } from './get-employers-by-name'
 
 let employerRepository: InMemoryEmployersRepository
-let sut: GetEmployersByNameRangeUseCase
+let sut: GetEmployersByNameUseCase
 
 describe('Get Employers By Name Use Case', () => {
   beforeEach(() => {
     employerRepository = new InMemoryEmployersRepository()
-    sut = new GetEmployersByNameRangeUseCase(employerRepository)
+    sut = new GetEmployersByNameUseCase(employerRepository)
   })
 
   it('should be able to find employers by name range', async () => {

@@ -2,8 +2,8 @@ import { EmployerRepository } from '@/repositories/employers-repository'
 import { Employer } from '@prisma/client'
 
 interface GetEmployersByBirthdateRangeRequest {
-  initialBirthDate: Date
-  finalBirthDate: Date
+  initialBirthDate: Date | string
+  finalBirthDate: Date | string
 }
 
 interface GetEmployersByBirthdateRangeResponse {

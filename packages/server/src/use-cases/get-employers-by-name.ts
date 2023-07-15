@@ -9,7 +9,7 @@ interface GetEmployersByNameResponse {
   employers: Employer[]
 }
 
-export class GetEmployersByNameRangeUseCase {
+export class GetEmployersByNameUseCase {
   constructor(private employersRepository: EmployerRepository) {}
 
   async execute({

@@ -19,9 +19,6 @@ export interface RemunerationsRepository {
   getRemunerationSumByCity(): Promise<getRemunerationSumByCityReturn[]>
   getRemunerationSumByGender(): Promise<getRemunerationSumByGenderReturn[]>
   getRemunerationSumByRemunerationType(): Promise<unknown[]>
-  create(
-    data: Prisma.RemunerationCreateInput,
-    employerId?: string,
-  ): Promise<Remuneration>
-  update(data: Prisma.RemunerationUpdateInput): Promise<Remuneration>
+  create(data: Prisma.RemunerationUncheckedCreateInput): Promise<Remuneration>
+  update(data: Prisma.RemunerationUncheckedUpdateInput): Promise<Remuneration>
 }

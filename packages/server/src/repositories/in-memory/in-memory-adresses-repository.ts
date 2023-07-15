@@ -7,7 +7,7 @@ import { AddressesRepository } from '@/repositories/adresses-repository'
 export class InMemoryAdressessRepository implements AddressesRepository {
   public items: Address[] = []
 
-  async create(data: Prisma.AddressCreateInput, employerId?: string) {
+  async create(data: Prisma.AddressUncheckedCreateInput) {
     const address = {
       id: randomUUID(),
       postal_code: data.postal_code,
@@ -16,7 +16,7 @@ export class InMemoryAdressessRepository implements AddressesRepository {
       complement: null,
       city: data.city,
       country: data.country,
-      employer_id: String(employerId) ?? '',
+      employer_id: data.employer_id,
       created_at: new Date(),
     }
 
@@ -25,7 +25,7 @@ export class InMemoryAdressessRepository implements AddressesRepository {
     return address
   }
 
-  async update(data: Prisma.AddressUpdateInput) {
+  async update(data: Prisma.AddressUncheckedUpdateInput) {
     const findIndex = this.items.findIndex((item) => item.id === data.id)
 
     const address = {
@@ -37,7 +37,7 @@ export class InMemoryAdressessRepository implements AddressesRepository {
       city: String(data.city),
       country: String(data.country),
       created_at: new Date(String(data.created_at)),
-      employer_id: String(data.employer?.connect?.id),
+      employer_id: String(data.employer_id),
     }
 
     this.items[findIndex] = address

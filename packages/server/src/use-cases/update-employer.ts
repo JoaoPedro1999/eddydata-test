@@ -1,10 +1,11 @@
 import { EmployerRepository } from '@/repositories/employers-repository'
+
 import { Employer } from '@prisma/client'
 import { EmployerNotFoundError } from './errors/employer-not-found'
 
 interface UpdateEmployerUseCaseRequest {
   id: string
-  birthdate: Date
+  birthdate: string
   email: string
   name: string
   gender: 'MALE' | 'FEMALE'
@@ -35,6 +36,7 @@ export class UpdateEmployerUseCase {
       email,
       gender,
       name,
+      id,
     })
 
     return { employer }

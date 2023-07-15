@@ -27,25 +27,19 @@ describe('Get Remunerations By Employer Id Use Case', () => {
       gender: 'MALE',
     })
 
-    const remunerationOne = await remunerationsRepository.create(
-      {
-        employer: employer as any,
-        payday: new Date(),
-        remuneration_value: 1000,
-        remuneration_type: 'BANK_TRANSFER',
-      },
-      employer.id,
-    )
+    const remunerationOne = await remunerationsRepository.create({
+      employer_id: employer.id,
+      payday: new Date(),
+      remuneration_value: 1000,
+      remuneration_type: 'BANK_TRANSFER',
+    })
 
-    const remunerationTwo = await remunerationsRepository.create(
-      {
-        employer: employer as any,
-        payday: new Date(),
-        remuneration_value: 1000,
-        remuneration_type: 'BANK_TRANSFER',
-      },
-      employer.id,
-    )
+    const remunerationTwo = await remunerationsRepository.create({
+      employer_id: employer.id,
+      payday: new Date(),
+      remuneration_value: 1000,
+      remuneration_type: 'BANK_TRANSFER',
+    })
 
     const { remunerations } = await sut.execute(employer.id)
 

@@ -1,10 +1,10 @@
 import { EmployerRepository } from '@/repositories/employers-repository'
-import { Employer, Prisma } from '@prisma/client'
+import { Employer } from '@prisma/client'
 import { EmployerAlreadyExistsError } from './errors/employer-already-exists-error'
 import { AddressesRepository } from '@/repositories/adresses-repository'
 
 interface CreateEmployerUseCaseRequest {
-  birthdate: Date
+  birthdate: string
   email: string
   name: string
   gender: 'MALE' | 'FEMALE'
@@ -53,19 +53,15 @@ export class CreateEmployerUseCase {
     })
 
     if (city && country && number && postal_code && street_address) {
-      await this.addressRepository.create(
-        {
-          city,
-          country,
-          employer:
-            employer as Prisma.EmployerCreateNestedOneWithoutAdressInput,
-          number,
-          postal_code,
-          street_address,
-          complement,
-        },
-        employer.id,
-      )
+      await this.addressRepository.create({
+        city,
+        country,
+        employer_id: employer.id,
+        number,
+        postal_code,
+        street_address,
+        complement,
+      })
     }
 
     return { employer }

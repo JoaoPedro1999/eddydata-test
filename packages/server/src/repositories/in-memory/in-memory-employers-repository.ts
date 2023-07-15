@@ -1,9 +1,14 @@
 import { Employer, GenderType, Prisma } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { EmployerRepository } from '@/repositories/employers-repository'
+import { GetResult } from '@prisma/client/runtime/library'
 
 export class InMemoryEmployersRepository implements EmployerRepository {
   public items: Employer[] = []
+
+  async findAllEmployers() {
+    return this.items
+  }
 
   async findByBirthDateRange(initialBirthDate: string, finalBirthDate: string) {
     const employers = this.items.filter(

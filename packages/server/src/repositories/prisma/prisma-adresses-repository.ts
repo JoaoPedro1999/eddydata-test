@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client'
 import { AddressesRepository } from '../adresses-repository'
 
 export class PrismaAdressesRepository implements AddressesRepository {
-  async create(data: Prisma.AddressCreateInput) {
+  async create(data: Prisma.AddressUncheckedCreateInput) {
     const address = await prisma.address.create({
       data,
     })
@@ -12,7 +12,7 @@ export class PrismaAdressesRepository implements AddressesRepository {
     return address
   }
 
-  async update(data: Prisma.AddressUpdateInput) {
+  async update(data: Prisma.AddressUncheckedUpdateInput) {
     const address = await prisma.address.update({
       where: {
         id: String(data.id),

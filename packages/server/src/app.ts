@@ -4,6 +4,8 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from '@/env'
 import { usersRoutes } from '@/http/controllers/users/routes'
+import { remunerationsRoutes } from '@/http/controllers/remunerations/routes'
+import { employersRoutes } from '@/http/controllers/employers/routes'
 
 export const app = fastify()
 
@@ -21,6 +23,8 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie)
 
 app.register(usersRoutes)
+app.register(remunerationsRoutes)
+app.register(employersRoutes)
 
 app.get('/', async () => {
   return {

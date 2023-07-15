@@ -4,7 +4,7 @@ interface GetRemunerationSumByCityUseCaseResponse {
   remunerations: unknown[]
 }
 
-export class GetRemunerationSumByCityUseCase {
+export class GetRemunerationSumByRemunerationTypeUseCase {
   constructor(private remunerationsRepository: RemunerationsRepository) {}
 
   async execute(): Promise<GetRemunerationSumByCityUseCaseResponse> {

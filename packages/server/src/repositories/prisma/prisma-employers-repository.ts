@@ -3,12 +3,22 @@ import { Prisma } from '@prisma/client'
 import { EmployerRepository } from '../employers-repository'
 
 export class PrismaEmployersRepository implements EmployerRepository {
+  async findAllEmployers() {
+    const employers = await prisma.employer.findMany({
+      include: {
+        adress: true,
+      },
+    })
+
+    return employers
+  }
+
   async findByBirthDateRange(initialBirthDate: string, finalBirthDate: string) {
     const employers = await prisma.employer.findMany({
       where: {
         birthdate: {
-          lte: initialBirthDate,
-          gte: finalBirthDate,
+          gte: new Date(initialBirthDate),
+          lte: new Date(finalBirthDate),
         },
       },
     })
@@ -21,7 +31,11 @@ export class PrismaEmployersRepository implements EmployerRepository {
       where: {
         name: {
           contains: name,
+          mode: 'insensitive',
         },
+      },
+      include: {
+        adress: true,
       },
     })
 
@@ -33,6 +47,9 @@ export class PrismaEmployersRepository implements EmployerRepository {
       where: {
         id: employerId,
       },
+      include: {
+        adress: true,
+      },
     })
 
     return employer
@@ -42,6 +59,9 @@ export class PrismaEmployersRepository implements EmployerRepository {
     const employer = await prisma.employer.findFirst({
       where: {
         email,
+      },
+      include: {
+        adress: true,
       },
     })
 
@@ -53,12 +73,15 @@ export class PrismaEmployersRepository implements EmployerRepository {
       where: {
         user_id: userId,
       },
+      include: {
+        adress: true,
+      },
     })
 
     return employer
   }
 
-  async create(data: Prisma.EmployerCreateInput) {
+  async create(data: Prisma.EmployerUncheckedCreateInput) {
     const employer = await prisma.employer.create({
       data,
     })
@@ -66,18 +89,7 @@ export class PrismaEmployersRepository implements EmployerRepository {
     return employer
   }
 
-  async update(data: Prisma.EmployerUpdateInput) {
-    await prisma.employer.delete({
-      where: {
-        id: String(data.id),
-      },
-      include: {
-        adress: true,
-        remuneration: true,
-        user: true,
-      },
-    })
-
+  async update(data: Prisma.EmployerUncheckedUpdateInput) {
     const employer = await prisma.employer.update({
       where: {
         id: String(data.id),

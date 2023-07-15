@@ -24,7 +24,7 @@ export class GetLastRemunerationByEmployerIdUseCase {
 
     const remuneration =
       await this.remunerationsRepository.getLastRemunerationByEmployerId(
-        employerId,
+        findEmployer.id,
       )
 
     return { remuneration }

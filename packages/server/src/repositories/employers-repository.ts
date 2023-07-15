@@ -9,7 +9,8 @@ export interface EmployerRepository {
   findById(employerId: string): Promise<Employer | null>
   findByEmail(email: string): Promise<Employer | null>
   findByUserId(userId: string): Promise<Employer | null>
-  create(data: Prisma.EmployerCreateInput): Promise<Employer>
-  update(data: Prisma.EmployerUpdateInput): Promise<Employer>
+  findAllEmployers(): Promise<Employer[]>
+  create(data: Prisma.EmployerUncheckedCreateInput): Promise<Employer>
+  update(data: Prisma.EmployerUncheckedUpdateInput): Promise<Employer>
   delete(employerId: string): Promise<void>
 }

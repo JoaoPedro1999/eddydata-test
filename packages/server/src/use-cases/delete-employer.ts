@@ -1,13 +1,13 @@
 import { EmployerRepository } from '@/repositories/employers-repository'
 
 interface DeleteEmployerUseCaseRequest {
-  id: string
+  employerId: string
 }
 
 export class DeleteEmployerUseCase {
   constructor(private employersRepository: EmployerRepository) {}
 
-  async execute({ id }: DeleteEmployerUseCaseRequest): Promise<void> {
-    await this.employersRepository.delete(id)
+  async execute({ employerId }: DeleteEmployerUseCaseRequest): Promise<void> {
+    await this.employersRepository.delete(employerId)
   }
 }
