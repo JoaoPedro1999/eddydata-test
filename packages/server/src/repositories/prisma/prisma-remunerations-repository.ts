@@ -42,6 +42,9 @@ export class PrismaRemunerationsRepository implements RemunerationsRepository {
       where: {
         employer_id: employerId,
       },
+      orderBy: {
+        payday: 'desc',
+      },
     })
 
     return remunerations

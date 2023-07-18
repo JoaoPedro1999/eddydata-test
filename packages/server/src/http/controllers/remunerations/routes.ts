@@ -8,6 +8,7 @@ import { remunerationsSumByCity } from './remunerationsSumByCity'
 import { remunerationsSumByGender } from './remunerationsSumByGender'
 import { remunerationsSumByRemunerationType } from './remunerationsSumByRemunerationType'
 import { lastRemunerationByEmployerId } from './lastRemunerationByEmployerId'
+import { getRemunerationsByEmployerId } from './getRemunerationsByEmployerId'
 
 export async function remunerationsRoutes(app: FastifyInstance) {
   app.get(
@@ -25,11 +26,16 @@ export async function remunerationsRoutes(app: FastifyInstance) {
     { onRequest: [verifyJwt] },
     remunerationsSumByRemunerationType,
   )
-
   app.get(
-    '/remuneration/last_remuneration',
+    '/remuneration/last_remuneration/:employerId',
     { onRequest: [verifyJwt] },
     lastRemunerationByEmployerId,
+  )
+
+  app.get(
+    '/remuneration/all/:employerId',
+    { onRequest: [verifyJwt] },
+    getRemunerationsByEmployerId,
   )
 
   app.post('/remuneration', { onRequest: [verifyJwt] }, create)

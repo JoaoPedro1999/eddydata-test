@@ -6,25 +6,18 @@ import { GenderType } from '@prisma/client'
 import { EmployerAlreadyExistsError } from '@/use-cases/errors/employer-already-exists-error'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
-  const registerBodySchema = z
-    .object({
-      birthdate: z.string(),
-      email: z.string().email(),
-      gender: z.string(),
-      name: z.string(),
-      city: z.string(),
-      complement: z.string(),
-      country: z.string(),
-      number: z.string(),
-      postal_code: z.string(),
-      street_address: z.string(),
-    })
-    .required({
-      name: true,
-      email: true,
-      gender: true,
-      birthdate: true,
-    })
+  const registerBodySchema = z.object({
+    birthdate: z.string(),
+    email: z.string().email(),
+    gender: z.string(),
+    name: z.string(),
+    city: z.string(),
+    complement: z.string(),
+    country: z.string(),
+    number: z.string(),
+    postal_code: z.string(),
+    street_address: z.string(),
+  })
 
   const {
     birthdate,

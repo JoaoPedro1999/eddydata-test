@@ -1,18 +1,14 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/frontend",
+    "packages/server"
   ],
-  "name": "eddydata",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build"
   },
-  "keywords": [],
   "dependencies": {
-    "turbo": "^1.10.7"
+    "turbo": "^1.9.9"
   }
 }

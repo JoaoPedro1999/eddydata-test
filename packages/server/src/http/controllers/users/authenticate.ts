@@ -44,7 +44,8 @@ export async function authenticate(
       })
       .status(200)
       .send({
-        token,
+        accessToken: token,
+        id: user.id,
       })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {

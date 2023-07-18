@@ -8,8 +8,6 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
     userId: request.user.sub,
   })
 
-  console.log(user)
-
   return reply.status(200).send({
     user: {
       ...user,
