@@ -15,7 +15,7 @@ $ git clone https://github.com/JoaoPedro1999/eddydata-test.git
 
 $ npm install
 
-### Configurw Prisma Client
+### Configure Prisma Client
 
 ### Go to the server folder
 
